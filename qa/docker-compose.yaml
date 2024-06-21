@@ -1,0 +1,92 @@
+services:
+  rabbit:
+    image: rabbitmq:3.13-management
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    extends:
+      file: common-config.yaml
+      service: network-deploy-service
+  selenium:
+    extends:
+      file: common-config.yaml
+      service: network-deploy-service
+    healthcheck:
+      test: "curl --fail --silent http://localhost:4444/wd/hub/status | jq -e '.value.ready' | grep true || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    image: selenium/standalone-chrome:3.141.59-20210607
+    container_name: selenium
+    ports:
+      - "4444:4444"
+    shm_size: 2g
+  configserver:
+    image: "victortarasov/executor-config-service:v2"
+    container_name: configserver-ms
+    ports:
+      - "8084:8084"
+    healthcheck:
+      test: "curl --fail --silent localhost:8084/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    extends:
+      file: common-config.yaml
+      service: microservice-base-config
+  eurekaserver:
+    image: "victortarasov/executor-eureka-service:v2"
+    container_name: eurekaserver-ms
+    ports:
+      - "8085:8085"
+    depends_on:
+      configserver:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent localhost:8085/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    extends:
+      file: common-config.yaml
+      service: microservice-config-server-config
+    environment:
+      SPRING_APPLICATION_NAME: "eurekaserver"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8085/eureka/
+      #SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: "http://keycloak:8080/realms/master/protocol/openid-connect/certs"
+  worker:
+    image: "victortarasov/executor-worker-service:v2"
+    container_name: worker-ms
+    ports:
+      - '8081:8081'
+    healthcheck:
+      test: "curl --fail --silent localhost:8081/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    depends_on:
+      configserver:
+        condition: service_healthy
+      eurekaserver:
+        condition: service_healthy
+      rabbit:
+        condition: service_healthy
+      selenium:
+        condition: service_healthy
+    extends:
+      file: common-config.yaml
+      service: microservice-eureka-config
+networks:
+  executor:
+    driver: "bridge"
