@@ -14,10 +14,16 @@ services:
     extends:
       file: common-config.yaml
       service: network-deploy-service
+
+
   selenium:
+    privileged: true
     extends:
       file: common-config.yaml
       service: network-deploy-service
+    hostname: selenium
+    networks:
+      - executor
     healthcheck:
       test: "curl --fail --silent http://localhost:4444/wd/hub/status | jq -e '.value.ready' | grep true || exit 1"
       interval: 10s
@@ -29,8 +35,10 @@ services:
     ports:
       - "4444:4444"
     shm_size: 2g
+
+
   configserver:
-    image: "victortarasov/executor-config-service:v2"
+    image: "victortarasov/executor-config-service:v3"
     container_name: configserver-ms
     ports:
       - "8084:8084"
@@ -43,8 +51,10 @@ services:
     extends:
       file: common-config.yaml
       service: microservice-base-config
+
+
   eurekaserver:
-    image: "victortarasov/executor-eureka-service:v2"
+    image: "victortarasov/executor-eureka-service:v3"
     container_name: eurekaserver-ms
     ports:
       - "8085:8085"
@@ -59,13 +69,15 @@ services:
       start_period: 10s
     extends:
       file: common-config.yaml
-      service: microservice-config-server-config
+      service: microservice-config-server
     environment:
       SPRING_APPLICATION_NAME: "eurekaserver"
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8085/eureka/
       #SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: "http://keycloak:8080/realms/master/protocol/openid-connect/certs"
+
+
   worker:
-    image: "victortarasov/executor-worker-service:v2"
+    image: "victortarasov/executor-worker-service:v3"
     container_name: worker-ms
     ports:
       - '8081:8081'
@@ -87,6 +99,13 @@ services:
     extends:
       file: common-config.yaml
       service: microservice-eureka-config
+    environment:
+      SPRING_APPLICATION_NAME: "worker_microservice"
+      SPRING_RABBITMQ_HOST: "rabbit"
+      EXECUTORSERVICE_COMMON_WEBDRIVEREXECUTABLE: "http://selenium:4444/wd/hub"
+
+
 networks:
   executor:
     driver: "bridge"
+    external: true

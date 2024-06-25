@@ -30,7 +30,7 @@ services:
       - "4444:4444"
     shm_size: 2g
   configserver:
-    image: "victortarasov/executor-config-service:v2"
+    image: "victortarasov/executor-config-service:v3"
     container_name: configserver-ms
     ports:
       - "8084:8084"
@@ -44,7 +44,7 @@ services:
       file: common-config.yaml
       service: microservice-base-config
   eurekaserver:
-    image: "victortarasov/executor-eureka-service:v2"
+    image: "victortarasov/executor-eureka-service:v3"
     container_name: eurekaserver-ms
     ports:
       - "8085:8085"
@@ -65,7 +65,7 @@ services:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8085/eureka/
       #SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: "http://keycloak:8080/realms/master/protocol/openid-connect/certs"
   worker:
-    image: "victortarasov/executor-worker-service:v2"
+    image: "victortarasov/executor-worker-service:v3"
     container_name: worker-ms
     ports:
       - '8081:8081'
