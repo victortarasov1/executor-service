@@ -104,6 +104,31 @@ services:
       SPRING_RABBITMQ_HOST: "rabbit"
       EXECUTORSERVICE_COMMON_WEBDRIVEREXECUTABLE: "http://selenium:4444/wd/hub"
 
+  publisher:
+    image: "victortarasov/executor-publisher-service:v3"
+    container_name: publisher-ms
+    ports:
+      - '8082:8082'
+    healthcheck:
+      test: "curl --fail --silent localhost:8082/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    depends_on:
+      configserver:
+        condition: service_healthy
+      eurekaserver:
+        condition: service_healthy
+      rabbit:
+        condition: service_healthy
+    extends:
+      file: common-config.yaml
+      service: microservice-eureka-config
+    environment:
+      SPRING_APPLICATION_NAME: "publisher_microservice"
+      SPRING_RABBITMQ_HOST: "rabbit"
+
 
 networks:
   executor:
