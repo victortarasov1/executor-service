@@ -117,7 +117,7 @@ services:
       file: common-config.yaml
       service: microservice-eureka-config
     environment:
-      SPRING_APPLICATION_NAME: "worker_microservice"
+      SPRING_APPLICATION_NAME: "worker"
       SPRING_RABBITMQ_HOST: "rabbit"
       EXECUTORSERVICE_COMMON_WEBDRIVEREXECUTABLE: "http://selenium:4444/wd/hub"
 
@@ -145,7 +145,7 @@ services:
       file: common-config.yaml
       service: microservice-eureka-config
     environment:
-      SPRING_APPLICATION_NAME: "publisher_microservice"
+      SPRING_APPLICATION_NAME: "publisher"
       SPRING_RABBITMQ_HOST: "rabbit"
       SPRING_DATASOURCE_URL: "jdbc:mysql://publisherdb:3306/publisherdb"
 
@@ -171,7 +171,7 @@ services:
       file: common-config.yaml
       service: microservice-eureka-config
     environment:
-      SPRING_APPLICATION_NAME: "proxy_microservice"
+      SPRING_APPLICATION_NAME: "proxy"
       SPRING_DATASOURCE_URL: "jdbc:mysql://proxydb:3306/proxydb"
 
 networks:
