@@ -38,7 +38,7 @@ services:
 
 
   configserver:
-    image: "victortarasov/executor-config-service:v4"
+    image: "victortarasov/executor-config-service:v5"
     container_name: configserver-ms
     ports:
       - "8084:8084"
@@ -54,7 +54,7 @@ services:
 
 
   eurekaserver:
-    image: "victortarasov/executor-eureka-service:v4"
+    image: "victortarasov/executor-eureka-service:v5"
     container_name: eurekaserver-ms
     ports:
       - "8085:8085"
@@ -77,7 +77,7 @@ services:
 
 
   worker:
-    image: "victortarasov/executor-worker-service:v4"
+    image: "victortarasov/executor-worker-service:v5"
     container_name: worker-ms
     ports:
       - '8081:8081'
@@ -100,12 +100,12 @@ services:
       file: common-config.yaml
       service: microservice-eureka-config
     environment:
-      SPRING_APPLICATION_NAME: "worker_microservice"
+      SPRING_APPLICATION_NAME: "worker"
       SPRING_RABBITMQ_HOST: "rabbit"
       EXECUTORSERVICE_COMMON_WEBDRIVEREXECUTABLE: "http://selenium:4444/wd/hub"
 
   publisher:
-    image: "victortarasov/executor-publisher-service:v4"
+    image: "victortarasov/executor-publisher-service:v5"
     container_name: publisher-ms
     ports:
       - '8082:8082'
@@ -122,15 +122,17 @@ services:
         condition: service_healthy
       rabbit:
         condition: service_healthy
+      worker:
+        condition: service_healthy
     extends:
       file: common-config.yaml
       service: microservice-eureka-config
     environment:
-      SPRING_APPLICATION_NAME: "publisher_microservice"
+      SPRING_APPLICATION_NAME: "publisher"
       SPRING_RABBITMQ_HOST: "rabbit"
 
   proxy:
-    image: "victortarasov/executor-proxy-service:v4"
+    image: "victortarasov/executor-proxy-service:v5"
     container_name: proxy-ms
     ports:
       - '8083:8083'
@@ -144,6 +146,8 @@ services:
       configserver:
         condition: service_healthy
       eurekaserver:
+        condition: service_healthy
+      worker:
         condition: service_healthy
     extends:
       file: common-config.yaml

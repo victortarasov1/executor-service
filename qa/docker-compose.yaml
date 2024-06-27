@@ -57,7 +57,7 @@ services:
 
 
   configserver:
-    image: "victortarasov/executor-config-service:v3"
+    image: "victortarasov/executor-config-service:v5"
     container_name: configserver-ms
     ports:
       - "8084:8084"
@@ -73,7 +73,7 @@ services:
 
 
   eurekaserver:
-    image: "victortarasov/executor-eureka-service:v3"
+    image: "victortarasov/executor-eureka-service:v5"
     container_name: eurekaserver-ms
     ports:
       - "8085:8085"
@@ -96,7 +96,7 @@ services:
 
 
   worker:
-    image: "victortarasov/executor-worker-service:v3"
+    image: "victortarasov/executor-worker-service:v5"
     container_name: worker-ms
     healthcheck:
       test: "curl --fail --silent localhost:8081/actuator/health/readiness | grep UP || exit 1"
@@ -122,7 +122,7 @@ services:
       EXECUTORSERVICE_COMMON_WEBDRIVEREXECUTABLE: "http://selenium:4444/wd/hub"
 
   publisher:
-    image: "victortarasov/executor-publisher-service:v3"
+    image: "victortarasov/executor-publisher-service:v5"
     container_name: publisher-ms
     ports:
       - '8082:8082'
@@ -150,12 +150,12 @@ services:
       SPRING_DATASOURCE_URL: "jdbc:mysql://publisherdb:3306/publisherdb"
 
   proxy:
-    image: "victortarasov/executor-proxy-service:v4"
+    image: "victortarasov/executor-proxy-service:v5"
     container_name: proxy-ms
     ports:
       - '8083:8083'
     healthcheck:
-      test: "curl --fail --silent localhost:8084/actuator/health/readiness | grep UP || exit 1"
+      test: "curl --fail --silent localhost:8083/actuator/health/readiness | grep UP || exit 1"
       interval: 10s
       timeout: 5s
       retries: 10
