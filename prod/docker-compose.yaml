@@ -25,6 +25,16 @@ services:
       file: common-config.yaml
       service: microservice-db-config
 
+  proxydb:
+    container_name: proxydb
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: proxydb
+    extends:
+      file: common-config.yaml
+      service: microservice-db-config
+
   selenium:
     privileged: true
     extends:
@@ -138,6 +148,31 @@ services:
       SPRING_APPLICATION_NAME: "publisher_microservice"
       SPRING_RABBITMQ_HOST: "rabbit"
       SPRING_DATASOURCE_URL: "jdbc:mysql://publisherdb:3306/publisherdb"
+
+  proxy:
+    image: "victortarasov/executor-proxy-service:v4"
+    container_name: proxy-ms
+    ports:
+      - '8083:8083'
+    healthcheck:
+      test: "curl --fail --silent localhost:8084/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    depends_on:
+      configserver:
+        condition: service_healthy
+      eurekaserver:
+        condition: service_healthy
+      publisherdb:
+        condition: service_healthy
+    extends:
+      file: common-config.yaml
+      service: microservice-eureka-config
+    environment:
+      SPRING_APPLICATION_NAME: "proxy_microservice"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://proxydb:3306/proxydb"
 
 networks:
   executor:
