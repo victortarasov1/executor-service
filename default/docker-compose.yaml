@@ -1,4 +1,16 @@
 services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.1
+    container_name: keycloak
+    ports:
+      - "7080:7080"
+    environment:
+      KEYCLOAK_ADMIN: "admin"
+      KEYCLOAK_ADMIN_PASSWORD: "admin"
+    command: "start-dev --http-port 7080"
+    extends:
+      file: common-config.yaml
+      service: network-deploy-service
   rabbit:
     image: rabbitmq:3.13-management
     hostname: rabbitmq
@@ -57,7 +69,7 @@ services:
 
 
   configserver:
-    image: "victortarasov/executor-config-service:v5"
+    image: "victortarasov/executor-config-service:v6"
     container_name: configserver-ms
     ports:
       - "8084:8084"
@@ -73,7 +85,7 @@ services:
 
 
   eurekaserver:
-    image: "victortarasov/executor-eureka-service:v5"
+    image: "victortarasov/executor-eureka-service:v6"
     container_name: eurekaserver-ms
     ports:
       - "8085:8085"
@@ -92,11 +104,11 @@ services:
     environment:
       SPRING_APPLICATION_NAME: "eurekaserver"
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8085/eureka/
-      #SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: "http://keycloak:8080/realms/master/protocol/openid-connect/certs"
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: "http://keycloak:8080/realms/master/protocol/openid-connect/certs"
 
 
   worker:
-    image: "victortarasov/executor-worker-service:v5"
+    image: "victortarasov/executor-worker-service:v6"
     container_name: worker-ms
     healthcheck:
       test: "curl --fail --silent localhost:8081/actuator/health/readiness | grep UP || exit 1"
@@ -122,7 +134,7 @@ services:
       EXECUTORSERVICE_COMMON_WEBDRIVEREXECUTABLE: "http://selenium:4444/wd/hub"
 
   publisher:
-    image: "victortarasov/executor-publisher-service:v5"
+    image: "victortarasov/executor-publisher-service:v6"
     container_name: publisher-ms
     ports:
       - '8082:8082'
@@ -150,7 +162,7 @@ services:
       SPRING_DATASOURCE_URL: "jdbc:postgresql://publisherdb:5432/publisherdb"
 
   proxy:
-    image: "victortarasov/executor-proxy-service:v5"
+    image: "victortarasov/executor-proxy-service:v6"
     container_name: proxy-ms
     ports:
       - '8083:8083'
@@ -175,7 +187,7 @@ services:
       SPRING_DATASOURCE_URL: "jdbc:postgresql://proxydb:5432/proxydb"
 
   gatewayserver:
-    image: "victortarasov/executor-gateway-service:v5"
+    image: "victortarasov/executor-gateway-service:v6"
     container_name: gatewayserver-ms
     ports:
       - "8080:8080"
@@ -192,7 +204,7 @@ services:
         condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: gateway
-    #      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: "http://keycloak:7080/realms/master/protocol/openid-connect/certs"
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: "http://keycloak:7080/realms/master/protocol/openid-connect/certs"
     extends:
       file: common-config.yaml
       service: microservice-eureka-config
