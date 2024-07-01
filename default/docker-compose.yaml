@@ -15,6 +15,25 @@ services:
       file: common-config.yaml
       service: network-deploy-service
 
+  publisherdb:
+    container_name: publisherdb
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: publisherdb
+    extends:
+      file: common-config.yaml
+      service: microservice-postgres-config
+
+  proxydb:
+    container_name: proxydb
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: proxydb
+    extends:
+      file: common-config.yaml
+      service: microservice-postgres-config
 
   selenium:
     privileged: true
@@ -79,8 +98,6 @@ services:
   worker:
     image: "victortarasov/executor-worker-service:v5"
     container_name: worker-ms
-    ports:
-      - '8081:8081'
     healthcheck:
       test: "curl --fail --silent localhost:8081/actuator/health/readiness | grep UP || exit 1"
       interval: 10s
@@ -122,7 +139,7 @@ services:
         condition: service_healthy
       rabbit:
         condition: service_healthy
-      worker:
+      publisherdb:
         condition: service_healthy
     extends:
       file: common-config.yaml
@@ -130,6 +147,7 @@ services:
     environment:
       SPRING_APPLICATION_NAME: "publisher"
       SPRING_RABBITMQ_HOST: "rabbit"
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://publisherdb:5432/publisherdb"
 
   proxy:
     image: "victortarasov/executor-proxy-service:v5"
@@ -147,14 +165,37 @@ services:
         condition: service_healthy
       eurekaserver:
         condition: service_healthy
-      worker:
+      publisherdb:
         condition: service_healthy
     extends:
       file: common-config.yaml
       service: microservice-eureka-config
+    environment:
+      SPRING_APPLICATION_NAME: "proxy"
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://proxydb:5432/proxydb"
 
-
-
+  gatewayserver:
+    image: "victortarasov/executor-gateway-service:v5"
+    container_name: gatewayserver-ms
+    ports:
+      - "8080:8080"
+    depends_on:
+      worker:
+        condition: service_healthy
+      publisher:
+        condition: service_healthy
+      proxy:
+        condition: service_healthy
+      configserver:
+        condition: service_healthy
+      eurekaserver:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: gateway
+    #      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: "http://keycloak:7080/realms/master/protocol/openid-connect/certs"
+    extends:
+      file: common-config.yaml
+      service: microservice-eureka-config
 networks:
   executor:
     driver: "bridge"

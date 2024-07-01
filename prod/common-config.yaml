@@ -10,18 +10,18 @@ services:
         limits:
           memory: 700m
 
-  microservice-db-config:
+  microservice-postgres-config:
     extends:
       service: network-deploy-service
-    image: mysql
+    image: postgres
     healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-      timeout: 10s
-      retries: 10
+      test: [ "CMD-SHELL", "pg_isready" ]
       interval: 10s
-      start_period: 10s
+      timeout: 5s
+      retries: 5
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: root
 
   microservice-config-server:
     extends:
