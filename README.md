@@ -174,6 +174,8 @@ Now, when you have configured keycloak, you can gain access to the endpoints usi
 - docker
 
 ## Flow
-
+### Executing scenario and generation report flow:
 ![Flow Diagram](img/Flow.png)
+
+### Loading proxies and validating from the remote API:
 ![Flow Diagram](img/addProxyFlow.png)
