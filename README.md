@@ -149,6 +149,7 @@ Now, when you have configured keycloak, you can gain access to the endpoints usi
 - Spring Cloud OpenFeign
 - Spring Cloud Circuit breaker
 - Spring Cloud Stream
+- Spring Cloud Gateway
 - okhttp
 - Selenium
 - prometheus
@@ -172,3 +173,7 @@ Now, when you have configured keycloak, you can gain access to the endpoints usi
 ### Requirements:
 - docker
 
+## Flow
+
+![Flow Diagram](img/Flow.png)
+![Flow Diagram](img/addProxyFlow.png)
