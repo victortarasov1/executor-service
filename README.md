@@ -2,7 +2,15 @@
 This program makes it possible to test your website using Selenium WebDriver.
 To do this, you simply need to create a test scenario and pass it via the API. 
 Additionally, you can make the program use proxies that will be retrieved from a remote API and validated.
-
+### Services
+- [worker](https://github.com/victortarasov1/worker_microservice) - executes scenarios and generates reports.
+- [publisher](https://github.com/victortarasov1/publisher_microservice) - provides an API to manage scenarios and reports
+- [proxy](https://github.com/victortarasov1/proxy_microservice) - provides an API for retrieving and validating proxies from a remote API and saving them to a database,
+  as well as for retrieving valid proxies from the database.
+- [config](https://github.com/victortarasov1/executor-service-configuration) - is a centralised storage of services` configurations
+- [config server](https://github.com/victortarasov1/configserver) - service for managing configurations.
+- [eureka](https://github.com/victortarasov1/executor-service-eureka) - service registry
+- [gateway server](https://github.com/victortarasov1/executor-service-gateway) - gateway
 ## API
 
 - `PUT: /executor/publisher/scenario` - add new scenario
@@ -164,7 +172,6 @@ Now, when you have configured keycloak, you can gain access to the endpoints usi
 - Grafana
 - Loki
 - Prometheus
-- 
 ### Server build:
 - gradle
 - google jib
