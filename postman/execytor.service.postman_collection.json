@@ -1,0 +1,794 @@
+{
+	"info": {
+		"_postman_id": "3b20a2b3-e09b-4067-9fde-e848b7243745",
+		"name": "execytor.service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24758496"
+	},
+	"item": [
+		{
+			"name": "create scenario",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientSecret",
+							"value": "6mY1ufNKtsEdTIk5Ah173b3yAZYEdlaZ",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "executor.service",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:7080/realms/master/protocol/openid-connect/token",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "clientcredentials_accesstoken",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "state",
+							"value": "ew34er-34fgfg-5gfgfg",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "body",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "openid email profile",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "http://localhost:7080/realms/master/protocol/openid-connect/auth",
+							"type": "string"
+						},
+						{
+							"key": "useBrowser",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"linux scenario\",\r\n    \"site\":\"https://kernel.org/\",\r\n    \"steps\" :[\r\n        {\r\n            \"action\": \"sleep\",\r\n            \"value\": \"8000:5000\"\r\n        },\r\n        {\r\n            \"action\":\"clickCss\",\r\n            \"value\":\"#banner > nav > ulwww > li:nth-child(1) > a\"\r\n        },\r\n        {\r\n            \"action\": \"sleep\",\r\n            \"value\": \"3000:5000\"\r\n        },\r\n        {\r\n            \"action\":\"clickXpath\",\r\n            \"value\": \"/html/body/footer/address[2]/a[4]\"\r\n        },\r\n        {\r\n            \"action\": \"sleep\",\r\n            \"value\": \"3000:5000\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/executor/publisher/scenario",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"executor",
+						"publisher",
+						"scenario"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all scenarios",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientSecret",
+							"value": "6mY1ufNKtsEdTIk5Ah173b3yAZYEdlaZ",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "executor.service",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:7080/realms/master/protocol/openid-connect/token",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "clientcredentials_accesstoken",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "state",
+							"value": "ew34er-34fgfg-5gfgfg",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "body",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "openid email profile",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "http://localhost:7080/realms/master/protocol/openid-connect/auth",
+							"type": "string"
+						},
+						{
+							"key": "useBrowser",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/executor/publisher/scenario/all",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"executor",
+						"publisher",
+						"scenario",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "execute scenario",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientSecret",
+							"value": "6mY1ufNKtsEdTIk5Ah173b3yAZYEdlaZ",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "executor.service",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:7080/realms/master/protocol/openid-connect/token",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "clientcredentials_accesstoken",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "state",
+							"value": "ew34er-34fgfg-5gfgfg",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "body",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "openid email profile",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "http://localhost:7080/realms/master/protocol/openid-connect/auth",
+							"type": "string"
+						},
+						{
+							"key": "useBrowser",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/executor/publisher/scenario?scenarioId=bbbc2708-cac6-4423-86dc-4997693b28c9",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"executor",
+						"publisher",
+						"scenario"
+					],
+					"query": [
+						{
+							"key": "scenarioId",
+							"value": "bbbc2708-cac6-4423-86dc-4997693b28c9"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get proxy",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientSecret",
+							"value": "X0kxi5lVuonfQmIlem45LxDfcdjJTSnz",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "executor.service",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:7080/realms/master/protocol/openid-connect/token",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "clientcredentials_accesstoken",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "state",
+							"value": "ew34er-34fgfg-5gfgfg",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "body",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "openid email profile",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "http://localhost:7080/realms/master/protocol/openid-connect/auth",
+							"type": "string"
+						},
+						{
+							"key": "useBrowser",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/executor/proxy/proxy/get",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"executor",
+						"proxy",
+						"proxy",
+						"get"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "load proxies from remote source",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8083/proxy/add",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"proxy",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get scenario by id",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientSecret",
+							"value": "By4eIpbFffLRYtXKHxtWhItSA5FuPdDO",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "executor.service",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:7080/realms/master/protocol/openid-connect/token",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "clientcredentials_accesstoken",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "state",
+							"value": "ew34er-34fgfg-5gfgfg",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "body",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "openid email profile",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "http://localhost:7080/realms/master/protocol/openid-connect/auth",
+							"type": "string"
+						},
+						{
+							"key": "useBrowser",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/executor/publisher/scenario?scenarioId=ad2b9d5c-50c6-480e-9ec4-460cae52170e",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"executor",
+						"publisher",
+						"scenario"
+					],
+					"query": [
+						{
+							"key": "scenarioId",
+							"value": "ad2b9d5c-50c6-480e-9ec4-460cae52170e"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all reports",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientSecret",
+							"value": "By4eIpbFffLRYtXKHxtWhItSA5FuPdDO",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "executor.service",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:7080/realms/master/protocol/openid-connect/token",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "clientcredentials_accesstoken",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "state",
+							"value": "ew34er-34fgfg-5gfgfg",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "body",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "openid email profile",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "http://localhost:7080/realms/master/protocol/openid-connect/auth",
+							"type": "string"
+						},
+						{
+							"key": "useBrowser",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/executor/publisher/reports/all",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"executor",
+						"publisher",
+						"reports",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get reports by scenario id",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientSecret",
+							"value": "By4eIpbFffLRYtXKHxtWhItSA5FuPdDO",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "executor.service",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:7080/realms/master/protocol/openid-connect/token",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "clientcredentials_accesstoken",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "state",
+							"value": "ew34er-34fgfg-5gfgfg",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "body",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "openid email profile",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "http://localhost:7080/realms/master/protocol/openid-connect/auth",
+							"type": "string"
+						},
+						{
+							"key": "useBrowser",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/executor/publisher/reports?scenarioId=ad2b9d5c-50c6-480e-9ec4-460cae52170e",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"executor",
+						"publisher",
+						"reports"
+					],
+					"query": [
+						{
+							"key": "scenarioId",
+							"value": "ad2b9d5c-50c6-480e-9ec4-460cae52170e"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete scenario by id",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientSecret",
+							"value": "By4eIpbFffLRYtXKHxtWhItSA5FuPdDO",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "executor.service",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:7080/realms/master/protocol/openid-connect/token",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "clientcredentials_accesstoken",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "state",
+							"value": "ew34er-34fgfg-5gfgfg",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "body",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "openid email profile",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "http://localhost:7080/realms/master/protocol/openid-connect/auth",
+							"type": "string"
+						},
+						{
+							"key": "useBrowser",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/executor/publisher/scenario?scenarioId=ad2b9d5c-50c6-480e-9ec4-460cae52170e",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"executor",
+						"publisher",
+						"scenario"
+					],
+					"query": [
+						{
+							"key": "scenarioId",
+							"value": "ad2b9d5c-50c6-480e-9ec4-460cae52170e"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update scenario",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientSecret",
+							"value": "By4eIpbFffLRYtXKHxtWhItSA5FuPdDO",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "executor.service",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:7080/realms/master/protocol/openid-connect/token",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "clientcredentials_accesstoken",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "state",
+							"value": "ew34er-34fgfg-5gfgfg",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "body",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "openid email profile",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "http://localhost:7080/realms/master/protocol/openid-connect/auth",
+							"type": "string"
+						},
+						{
+							"key": "useBrowser",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{\r\n    \"id\": \"346c2ccc-ee74-41aa-872a-b38ed43611ee\",\r\n    \"name\": \"linux scenario\",\r\n    \"site\": \"https://kernel.org/\",\r\n    \"steps\": [\r\n        {\r\n            \"id\": \"f710febe-c867-4743-bb29-130f34628a18\",\r\n            \"action\": \"sleep\",\r\n            \"value\": \"8000:5000\",\r\n            \"createdAt\": \"2024-07-05T09:03:21.492576Z\"\r\n        },\r\n        {\r\n            \"id\": \"565394e3-7543-4ac9-8d89-e2fa9aa43066\",\r\n            \"action\": \"clickCss\",\r\n            \"value\": \"#banner > nav > ulwww > li:nth-child(1) > a\",\r\n            \"createdAt\": \"2024-07-05T09:03:21.493799Z\"\r\n        },\r\n        {\r\n            \"id\": \"363acb8e-d920-4eb1-8cdf-dfac1713bc03\",\r\n            \"action\": \"sleep\",\r\n            \"value\": \"3000:5000\",\r\n            \"createdAt\": \"2024-07-05T09:03:21.495090Z\"\r\n        },\r\n        {\r\n            \"id\": \"08c2025f-1596-4603-b9ec-a659444424fe\",\r\n            \"action\": \"clickXpath\",\r\n            \"value\": \"/html/body/footer/address[2]/a[4]\",\r\n            \"createdAt\": \"2024-07-05T09:03:21.496587Z\"\r\n        },\r\n        {\r\n            \"id\": \"93be83f0-3f23-4363-980d-e572128e44f8\",\r\n            \"action\": \"sleep\",\r\n            \"value\": \"3000:5000\",\r\n            \"createdAt\": \"2024-07-05T09:03:21.500897Z\"\r\n        }\r\n    ],\r\n    \"createdAt\": \"2024-07-05T09:03:21.490704Z\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/executor/publisher/scenario",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"executor",
+						"publisher",
+						"scenario"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
