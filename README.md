@@ -158,6 +158,7 @@ Now, when you have configured keycloak, you can gain access to the endpoints usi
 - Spring Cloud Circuit breaker
 - Spring Cloud Stream
 - Spring Cloud Gateway
+- Apache Kafka
 - okhttp
 - Selenium
 - prometheus
