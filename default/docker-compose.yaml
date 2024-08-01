@@ -200,29 +200,6 @@ services:
       file: common-config.yaml
       service: network-deploy-service
 
-#  rabbit:
-#    image: rabbitmq:3.13-management
-#    hostname: rabbitmq
-#    ports:
-#      - "5672:5672"
-#      - "15672:15672"
-#    healthcheck:
-#      test: rabbitmq-diagnostics check_port_connectivity
-#      interval: 10s
-#      timeout: 5s
-#      retries: 10
-#      start_period: 5s
-#    extends:
-#      file: common-config.yaml
-#      service: network-deploy-service
-
-#  kafka:
-#    image: apache/kafka:3.8.0
-#    ports:
-#      - "9092:9092"
-#    extends:
-#      file: common-config.yaml
-#      service: network-deploy-service
   kafka:
     image: docker.io/bitnami/kafka:3.7
     ports:
@@ -243,6 +220,7 @@ services:
     extends:
       file: common-config.yaml
       service: network-deploy-service
+
   redis:
     image: redis
     hostname: redis
@@ -353,8 +331,6 @@ services:
         condition: service_healthy
       eurekaserver:
         condition: service_healthy
-#      rabbit:
-#        condition: service_healthy
       selenium:
         condition: service_healthy
     extends:
@@ -362,7 +338,6 @@ services:
       service: microservice-eureka-config
     environment:
       SPRING_APPLICATION_NAME: "worker"
-#      SPRING_RABBITMQ_HOST: "rabbit"
       EXECUTORSERVICE_COMMON_WEBDRIVEREXECUTABLE: "http://selenium:4444/wd/hub"
       SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"
 
@@ -382,8 +357,6 @@ services:
         condition: service_healthy
       eurekaserver:
         condition: service_healthy
-#      rabbit:
-#        condition: service_healthy
       publisherdb:
         condition: service_healthy
     extends:
@@ -391,7 +364,6 @@ services:
       service: microservice-eureka-config
     environment:
       SPRING_APPLICATION_NAME: "publisher"
-#      SPRING_RABBITMQ_HOST: "rabbit"
       SPRING_DATASOURCE_URL: "jdbc:postgresql://publisherdb:5432/publisherdb"
       SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"
 
