@@ -200,18 +200,23 @@ services:
       file: common-config.yaml
       service: network-deploy-service
 
-  rabbit:
-    image: rabbitmq:3.13-management
-    hostname: rabbitmq
+  kafka:
+    image: docker.io/bitnami/kafka:3.7
     ports:
-      - "5672:5672"
-      - "15672:15672"
-    healthcheck:
-      test: rabbitmq-diagnostics check_port_connectivity
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 5s
+      - "9092:9092"
+    volumes:
+      - "kafka_data:/bitnami"
+    environment:
+      # KRaft settings
+      - KAFKA_CFG_NODE_ID=0
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
+      # Listeners
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
     extends:
       file: common-config.yaml
       service: network-deploy-service
@@ -272,7 +277,7 @@ services:
 
 
   configserver:
-    image: "victortarasov/executor-config-service:v9"
+    image: "victortarasov/executor-config-service:v10"
     container_name: configserver-ms
     ports:
       - "8084:8084"
@@ -288,7 +293,7 @@ services:
 
 
   eurekaserver:
-    image: "victortarasov/executor-eureka-service:v9"
+    image: "victortarasov/executor-eureka-service:v10"
     container_name: eurekaserver-ms
     ports:
       - "8085:8085"
@@ -311,7 +316,7 @@ services:
 
 
   worker:
-    image: "victortarasov/executor-worker-service:v9"
+    image: "victortarasov/executor-worker-service:v10"
     container_name: worker-ms
     ports:
       - '8081:8081'
@@ -320,13 +325,11 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
-      start_period: 10s
+      start_period: 20s
     depends_on:
       configserver:
         condition: service_healthy
       eurekaserver:
-        condition: service_healthy
-      rabbit:
         condition: service_healthy
       selenium:
         condition: service_healthy
@@ -335,11 +338,11 @@ services:
       service: microservice-eureka-config
     environment:
       SPRING_APPLICATION_NAME: "worker"
-      SPRING_RABBITMQ_HOST: "rabbit"
       EXECUTORSERVICE_COMMON_WEBDRIVEREXECUTABLE: "http://selenium:4444/wd/hub"
+      SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"
 
   publisher:
-    image: "victortarasov/executor-publisher-service:v9"
+    image: "victortarasov/executor-publisher-service:v10"
     container_name: publisher-ms
     ports:
       - '8082:8082'
@@ -354,8 +357,6 @@ services:
         condition: service_healthy
       eurekaserver:
         condition: service_healthy
-      rabbit:
-        condition: service_healthy
       publisherdb:
         condition: service_healthy
     extends:
@@ -363,11 +364,11 @@ services:
       service: microservice-eureka-config
     environment:
       SPRING_APPLICATION_NAME: "publisher"
-      SPRING_RABBITMQ_HOST: "rabbit"
       SPRING_DATASOURCE_URL: "jdbc:postgresql://publisherdb:5432/publisherdb"
+      SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"
 
   proxy:
-    image: "victortarasov/executor-proxy-service:v9"
+    image: "victortarasov/executor-proxy-service:v10"
     container_name: proxy-ms
     ports:
       - '8083:8083'
@@ -392,7 +393,7 @@ services:
       SPRING_DATASOURCE_URL: "jdbc:postgresql://proxydb:5432/proxydb"
 
   gatewayserver:
-    image: "victortarasov/executor-gateway-service:v9"
+    image: "victortarasov/executor-gateway-service:v10"
     container_name: gatewayserver-ms
     ports:
       - "8080:8080"
@@ -416,7 +417,9 @@ services:
     extends:
       file: common-config.yaml
       service: microservice-eureka-config
-
+volumes:
+  kafka_data:
+    driver: local
 networks:
   executor:
     driver: "bridge"
