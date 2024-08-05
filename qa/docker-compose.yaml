@@ -287,7 +287,7 @@ services:
 
 
   configserver:
-    image: "victortarasov/executor-config-service:v10"
+    image: "victortarasov/executor-config-service:v11"
     container_name: configserver-ms
     ports:
       - "8084:8084"
@@ -303,7 +303,7 @@ services:
 
 
   eurekaserver:
-    image: "victortarasov/executor-eureka-service:v10"
+    image: "victortarasov/executor-eureka-service:v11"
     container_name: eurekaserver-ms
     ports:
       - "8085:8085"
@@ -326,7 +326,7 @@ services:
 
 
   worker:
-    image: "victortarasov/executor-worker-service:v10"
+    image: "victortarasov/executor-worker-service:v11"
     container_name: worker-ms
     ports:
       - '8081:8081'
@@ -352,7 +352,7 @@ services:
       SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"
 
   publisher:
-    image: "victortarasov/executor-publisher-service:v10"
+    image: "victortarasov/executor-publisher-service:v11"
     container_name: publisher-ms
     ports:
       - '8082:8082'
@@ -378,7 +378,7 @@ services:
       SPRING_DATASOURCE_URL: "jdbc:postgresql://publisherdb:5432/publisherdb"
 
   proxy:
-    image: "victortarasov/executor-proxy-service:v10"
+    image: "victortarasov/executor-proxy-service:v11"
     container_name: proxy-ms
     ports:
       - '8083:8083'
@@ -403,7 +403,7 @@ services:
       SPRING_DATASOURCE_URL: "jdbc:postgresql://proxydb:5432/proxydb"
 
   gatewayserver:
-    image: "victortarasov/executor-gateway-service:v10"
+    image: "victortarasov/executor-gateway-service:v11"
     container_name: gatewayserver-ms
     ports:
       - "8080:8080"
