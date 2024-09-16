@@ -161,8 +161,6 @@ Now, when you have configured keycloak, you can gain access to the endpoints usi
 - Apache Kafka
 - okhttp
 - Selenium
-- prometheus
-- Selenium
 - Lombok
 - Spring Boot
 - AspectJ
